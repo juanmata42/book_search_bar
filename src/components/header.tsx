@@ -3,17 +3,20 @@ import {
   BookMarkLine,
   SearchInput,
   SearchIcon,
-  CloseIcon
+  CloseIcon,
 } from './styled-components';
 import { useState, useRef } from 'react';
 import SearchPopUp from './search-popup';
-
+import { getBooks } from '../api/api';
 export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const searchInput = useRef<HTMLInputElement | null>(null);
+  //function that turns spaces into +
+
   const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
+    /* getBooks() */
   };
   const resetInputField = () => {
     setInputValue('');
