@@ -27,7 +27,8 @@ export const BookMarkLine = styled.button`
 `;
 
 export const SearchInput = styled.input.attrs({ placeholder: 'Search book' })`
-  width: 0px;
+  width: ${(props: { out: boolean }) => (props.out ? "0" : "200px")};
+  padding-left: ${(props: { out: boolean }) => (props.out ? "0" : "10px")};
   height: 30px;
   border: none;
   border-radius: 15px 0 0 15px;
@@ -39,7 +40,6 @@ export const SearchInput = styled.input.attrs({ placeholder: 'Search book' })`
   right: 30px;
   &:focus {
     outline: none;
-    width: 200px;
     padding-left: 10px;
   }
   &::placeholder {

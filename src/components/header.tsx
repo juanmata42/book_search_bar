@@ -41,6 +41,7 @@ export default function Header() {
         ref={searchInput}
         onChange={handleUserInput}
         value={inputValue}
+        out={!isSearchOpen}
       />
       <SearchPopUp out={!isSearchOpen} />
     </HeaderStyled>
