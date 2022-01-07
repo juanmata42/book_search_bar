@@ -1,6 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 import { useState, useRef } from 'react';
-
+import SearchPopUp from './search-popup';
 const HeaderStyled = styled.header`
   width: 100%;
   height: 50px;
@@ -24,7 +24,7 @@ const BookMarkLine = styled.button`
   }
 `;
 
-const SearchInput = styled.input.attrs({ placeholder: 'Search...' })`
+const SearchInput = styled.input.attrs({ placeholder: 'Search book' })`
   width: 0px;
   height: 30px;
   border: none;
@@ -101,8 +101,14 @@ const CloseIcon = styled.svg`
 `;
 export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [inputValue, setInputValue] = useState('');
   const searchInput = useRef<HTMLInputElement | null>(null);
-
+  const handleUserInput = (e:React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+  const resetInputField = () => {
+    setInputValue('');
+  };
   const handleFocus = () => {
     if (!isSearchOpen) {
       searchInput.current?.focus();
@@ -110,6 +116,7 @@ export default function Header() {
     } else {
       setIsSearchOpen(false);
       searchInput.current?.blur();
+      resetInputField();
     }
   };
   return (
@@ -121,7 +128,12 @@ export default function Header() {
       <CloseIcon out={!isSearchOpen} viewBox="0 0 330 330">
         <path d="M165 0C120.926 0 79.492 17.163 48.328 48.327c-64.334 64.333-64.334 169.011-.002 233.345C79.49 312.837 120.926 330 165 330c44.072 0 85.508-17.163 116.672-48.328 64.334-64.334 64.334-169.012 0-233.345C250.508 17.163 209.072 0 165 0zm74.246 239.245a14.956 14.956 0 0 1-10.607 4.394 14.948 14.948 0 0 1-10.605-4.394L165 186.213l-53.033 53.033a14.956 14.956 0 0 1-10.607 4.394 14.948 14.948 0 0 1-10.605-4.394c-5.859-5.857-5.859-15.355 0-21.213L143.787 165l-53.033-53.033c-5.859-5.857-5.859-15.355 0-21.213 5.857-5.857 15.355-5.857 21.213 0L165 143.787l53.031-53.033c5.857-5.857 15.355-5.857 21.213 0 5.859 5.857 5.859 15.355 0 21.213L186.213 165l53.033 53.032c5.858 5.858 5.858 15.356 0 21.213z" />
       </CloseIcon>
-      <SearchInput ref={searchInput} />
+      <SearchInput
+        ref={searchInput}
+        onChange={handleUserInput}
+        value={inputValue}
+      />
+      <SearchPopUp out={!isSearchOpen} />
     </HeaderStyled>
   );
 }
