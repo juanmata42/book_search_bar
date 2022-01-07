@@ -120,8 +120,10 @@ export const CloseIcon = styled.svg`
 `;
 
 //search popup components
-
-export const PopUpStyled = styled.section`
+interface PopUpStyled{
+  out:boolean,bottom:boolean
+}
+export const PopUpStyled = styled.section<PopUpStyled>`
   background-color: #f5f5f5;
   position: absolute;
   z-index: 6;
@@ -135,11 +137,10 @@ export const PopUpStyled = styled.section`
     width: 90vw;
     font-size: 15px;
   }
-  visibility: ${(props: { out: boolean }) =>
-    props.out ? 'hidden' : 'visible'};
-  max-height: ${(props: { out: boolean }) => (props.out ? '0' : '500px')};
+  visibility: ${({ out }) => (out ? 'hidden' : 'visible')};
+  max-height: ${({ out }) => (out ? '0' : '500px')};
   transition: all 0.3s;
-  padding: ${(props: { out: boolean }) => (props.out ? '0 10px' : '10px')};
+  padding: ${({ out }) => (out ? '0 10px' : '10px')};
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
 
   &::before {
@@ -154,6 +155,7 @@ export const PopUpStyled = styled.section`
     border-bottom-color: #f5f5f5;
     filter: drop-shadow(0 -1px 1px rgba(0, 0, 0, 0.1));
   }
+
   &::after {
     content: '';
     -webkit-mask: linear-gradient(to top, #f5f5f5, transparent);
@@ -164,6 +166,8 @@ export const PopUpStyled = styled.section`
     height: 100px;
     left: 0;
     background-color: #f5f5f5;
+    display: ${({ bottom }) =>
+      bottom ? 'none' : 'block'};
   }
 `;
 export const SearchResultsList = styled.ul`
@@ -190,7 +194,7 @@ export const BookCardStyled = styled.li`
 `;
 export const BookPicContainerStyled = styled.div`
   height: 100%;
-  width: 30%;
+  width: 35%;
   background-image: url(${logo512});
   background-position: center;
   background-size: auto 130px;
@@ -238,7 +242,7 @@ export const BookFlapCopyStyled = styled.div`
   font-weight: thin;
   text-overflow: ellipsis;
   overflow: hidden;
-  height: 110px;
+  height: 90px;
   display: -webkit-box !important;
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
