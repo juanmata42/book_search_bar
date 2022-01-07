@@ -1,5 +1,13 @@
-import styled from 'styled-components';
-import logo512 from '../assets/logo512.png';
+import {
+  BookPicStyled,
+  BookPicContainerStyled,
+  BookCardStyled,
+  BookTextContainerStyled,
+  BookTitleStyled,
+  BookAuthorStyled,
+  BookFlapCopyStyled
+} from './styled-components';
+
 type BookCardProps = {
   uri: string;
   titleweb: string;
@@ -7,22 +15,7 @@ type BookCardProps = {
   flapcopy: string;
   workid: string;
 };
-const BookCardStyled = styled.li`
-  display: flex;
-  height: 115px;
-`;
-const BookPicContainerStyled = styled.div`
-  height: 115px;
-  width: 75px;
-  background-image: url(${logo512});
-  background-position: center;
-  background-size: auto 75px;
-  background-repeat: no-repeat;
-`;
-const BookPicStyled = styled.img`
-  height: 100%;
-  width: auto;
-`;
+
 export default function BookCard({
   uri,
   titleweb,
@@ -31,13 +24,15 @@ export default function BookCard({
   workid,
 }: BookCardProps) {
   return (
-    <li>
+    <BookCardStyled>
       <BookPicContainerStyled>
         <BookPicStyled src={uri} alt={titleweb} />
       </BookPicContainerStyled>
-      <div>{titleweb}</div>
-      <div>{authorweb}</div>
-      <div>{flapcopy}</div>
-    </li>
+      <BookTextContainerStyled>
+        <BookTitleStyled>{titleweb}</BookTitleStyled>
+        <BookAuthorStyled>{authorweb}</BookAuthorStyled>
+        <BookFlapCopyStyled dangerouslySetInnerHTML={{ __html: flapcopy }} />
+      </BookTextContainerStyled>
+    </BookCardStyled>
   );
 }

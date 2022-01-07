@@ -1,109 +1,18 @@
-import styled, { keyframes } from 'styled-components';
+import {
+  HeaderStyled,
+  BookMarkLine,
+  SearchInput,
+  SearchIcon,
+  CloseIcon
+} from './styled-components';
 import { useState, useRef } from 'react';
 import SearchPopUp from './search-popup';
-const HeaderStyled = styled.header`
-  width: 100%;
-  height: 50px;
-  background-color: #10bafc;
-  position: fixed;
-`;
 
-const BookMarkLine = styled.button`
-  width: 0;
-  height: 60px;
-  transition: height 0.15s ease-out;
-  border-right: 10px solid #ff4444;
-  border-left: 10px solid #ff4444;
-  border-bottom: 5px solid transparent;
-  position: absolute;
-  right: 10px;
-  z-index: 1;
-  &:active {
-    height: 80px;
-    transition: height 0.15s ease-in;
-  }
-`;
-
-const SearchInput = styled.input.attrs({ placeholder: 'Search book' })`
-  width: 0px;
-  height: 30px;
-  border: none;
-  border-radius: 15px 0 0 15px;
-  background-color: rgba(0, 0, 0, 0.2);
-  transition: width 0.15s ease-in-out;
-  position: absolute;
-  z-index: 1;
-  top: 12px;
-  right: 30px;
-  &:focus {
-    outline: none;
-    width: 200px;
-    padding-left: 10px;
-  }
-  &::placeholder {
-    color: rgba(0, 0, 0, 0.5);
-  }
-`;
-const fadeIn = keyframes`
-  from {
-    transform: scale(0.25);
-    opacity: 0;
-  }
-
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-`;
-
-const fadeOut = keyframes`
-  from {
-    transform: scale(1);
-    opacity: 1;
-  }
-
-  to {
-    transform: scale(0.25);
-    opacity: 0;
-  }
-`;
-
-const SearchIcon = styled.svg`
-  fill: rgba(0, 0, 0, 0.4);
-  position: absolute;
-  z-index: 2;
-  pointer-events: none;
-  height: 20px;
-  width: 20px;
-  right: 10px;
-  top: 17px;
-  visibility: ${(props: { out: boolean }) =>
-    props.out ? 'hidden' : 'visible'};
-  animation: ${(props: { out: boolean }) => (props.out ? fadeOut : fadeIn)}
-    0.15s linear;
-  transition: visibility 0.15s linear;
-`;
-
-const CloseIcon = styled.svg`
-  fill: rgba(0, 0, 0, 0.4);
-  position: absolute;
-  z-index: 3;
-  pointer-events: none;
-  height: 20px;
-  width: 20px;
-  right: 10px;
-  visibility: ${(props: { out: boolean }) =>
-    props.out ? 'hidden' : 'visible'};
-  animation: ${(props: { out: boolean }) => (props.out ? fadeOut : fadeIn)}
-    0.15s linear;
-  transition: visibility 0.15s linear;
-  top: 17px;
-`;
 export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const searchInput = useRef<HTMLInputElement | null>(null);
-  const handleUserInput = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
   const resetInputField = () => {
