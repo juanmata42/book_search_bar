@@ -23,3 +23,25 @@ Share the completed work in a public git repository. Send link via email.
 Follow-up technical interview for you to explain your process and thinking behind any decisions.
 
 Further QA.
+
+juanma42
+Maquina limpia1
+
+Enhanced PRH API: Resources API v2
+Key: 2475nax89fpfg9de4mrpq7me
+Applicationsearch_barKey:2475nax89fpfg9de4mrpq7meStatus:waitingCreated:4 seconds ago
+Key Rate Limits
+1,000	Calls per second
+5,000,000	Calls per day
+PRH Messaging v1 - TST: Messaging Plan TST
+Key: yjx7frf3qdgeuj3zkdm525fu
+Applicationsearch_barKey:yjx7frf3qdgeuj3zkdm525fuStatus:waitingCreated:4 seconds ago
+Key Rate Limits
+2	Calls per second
+5,000	Calls per day
+
+https://reststop.randomhouse.com/resources/titles?title=but+something+something&max=5
+or
+title=I%20am&max=5
+
+https://github.com/laurenlucero/BlackStoriesMatter
