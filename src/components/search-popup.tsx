@@ -38,11 +38,11 @@ export default function SearchPopUp({
       bottom={isBottom}
       resultsNum={resultsList?.length}
       validInput={validInput}
+      $loading={loading}
     >
-      {resultsList ? (
-        <SearchResultsList onScroll={onScroll} ref={listInnerRef}>
-          {loading ? (<img src={loadingBookGif} alt="loading" />):(resultsList &&
-            resultsList?.map((book) => (
+      <SearchResultsList onScroll={onScroll} ref={listInnerRef}>
+        {loading ? (<img src={loadingBookGif} alt="loading" />):
+          (resultsList ?(resultsList?.map((book) => (
               <BookCard
                 uri={book['@uri']}
                 titleweb={book.titleweb}
@@ -51,11 +51,10 @@ export default function SearchPopUp({
                 workid={book.workid}
                 key={`${book.workid}${book.titleweb}`}
               />
-            )))}
-        </SearchResultsList>
-      ) : (
+            ))):(
         'No results found'
-      )}
+      ))}
+        </SearchResultsList>
     </PopUpStyled>
   );
 }

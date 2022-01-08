@@ -5,12 +5,15 @@ import {
   SearchIcon,
   CloseIcon,
 } from './styled-components';
+import { useDebouncedCallback } from 'use-debounce';
 import { useState, useRef, useEffect } from 'react';
 import SearchPopUp from './search-popup';
 import { getBooks } from '../api/api';
+
 export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [keywords,setKeywords]= useState("")
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const searchInput = useRef<HTMLInputElement | null>(null);
@@ -21,16 +24,13 @@ export default function Header() {
   useEffect(() => {
     async function fetchData() {
       const data = await getBooks(encode(inputValue));
-      setSearchResults(data)
-      setLoading(false)}
+      setSearchResults(data);
+      setLoading(false);
+    }
     setLoading(true);
-    fetchData();
-    },
-    [inputValue]
-  );
-  const resetInputField = () => {
-    setInputValue('');
-  };
+    fetchData()
+  }, [inputValue]);
+  
   const handleFocus = () => {
     if (!isSearchOpen) {
       searchInput.current?.focus();
@@ -38,9 +38,18 @@ export default function Header() {
     } else {
       setIsSearchOpen(false);
       searchInput.current?.blur();
-      resetInputField();
+      setSearchResults([]);
+      setKeywords('');
+      setInputValue('');
     }
   };
+   const debounced = useDebouncedCallback(
+     (value) => {
+       setInputValue(value);
+       setLoading(true);
+     },
+     500
+   );
   return (
     <HeaderStyled>
       <BookMarkLine onClick={handleFocus} />
@@ -53,10 +62,11 @@ export default function Header() {
       <SearchInput
         ref={searchInput}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          setInputValue(e.target.value);
+          setKeywords(e.target.value);
+          debounced(e.target.value)
         }}
-        value={inputValue || ''}
         out={!isSearchOpen}
+        value={keywords}
       />
       <SearchPopUp
         out={!isSearchOpen}

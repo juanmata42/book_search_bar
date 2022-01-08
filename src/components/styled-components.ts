@@ -26,14 +26,17 @@ export const BookMarkLine = styled.button`
   }
 `;
 
-export const SearchInput = styled.input.attrs({ placeholder: 'Search book' })`
+export const SearchInput = styled.input.attrs({
+  placeholder: 'Search book',
+  type: 'search',
+})`
   width: ${(props: { out: boolean }) => (props.out ? '0' : '200px')};
   padding-left: ${(props: { out: boolean }) => (props.out ? '0' : '10px')};
   height: 30px;
   border: none;
   border-radius: 15px 0 0 15px;
   background-color: rgba(0, 0, 0, 0.2);
-  transition: width 0.15s ease-in-out;
+  transition: width 0.15s, padding 0.15s ease-in-out;
   position: absolute;
   z-index: 1;
   top: 12px;
@@ -44,6 +47,24 @@ export const SearchInput = styled.input.attrs({ placeholder: 'Search book' })`
   }
   &::placeholder {
     color: rgba(0, 0, 0, 0.5);
+  }
+  /* clears the ‘X’ from Internet Explorer */
+  &::-ms-clear {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+  &::-ms-reveal {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+  /* clears the ‘X’ from Chrome */
+  &::-webkit-search-decoration,
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-results-button,
+  &::-webkit-search-results-decoration {
+    display: none;
   }
 `;
 
@@ -120,11 +141,12 @@ export const CloseIcon = styled.svg`
 `;
 
 //search popup components
-interface PopUpStyled {
+interface PopUpStyledInterface {
   out: boolean;
   bottom: boolean;
   resultsNum: number;
   validInput: boolean;
+  $loading: boolean;
 }
 function adjustHeigth(num: number) {
   if (num === 1) {
@@ -139,12 +161,12 @@ function adjustHeigth(num: number) {
     return "50";
   }
 }
-export const PopUpStyled = styled.section<PopUpStyled>`
+export const PopUpStyled = styled.section<PopUpStyledInterface>`
   background-color: #f5f5f5;
   position: absolute;
   z-index: 6;
-  height: ${({ resultsNum }) =>
-    resultsNum ? adjustHeigth(resultsNum) : '50'}px;
+  height: ${({ resultsNum, $loading }) =>
+    resultsNum ? adjustHeigth(resultsNum) : $loading ? '500' : '50'}px;
   max-width: 90vw;
   width: 500px;
   right: 10px;
@@ -153,8 +175,7 @@ export const PopUpStyled = styled.section<PopUpStyled>`
     width: 90vw;
     font-size: 15px;
   }
-  visibility: ${({ validInput }) =>
-    validInput ? 'visible' : 'hidden'};
+  visibility: ${({ validInput }) => (validInput ? 'visible' : 'hidden')};
   max-height: ${({ out }) => (out ? '0' : '500px')};
   transition: all 0.3s;
   padding: ${({ out }) => (out ? '0 10px' : '10px')};
@@ -182,7 +203,7 @@ export const PopUpStyled = styled.section<PopUpStyled>`
     width: 100%;
     height: ${({ bottom, out }) => (bottom || out ? '0' : '100px')};
     left: 0;
-    display:${({ resultsNum }) =>resultsNum? 'block':'none'};
+    display: ${({ resultsNum }) => (resultsNum ? 'block' : 'none')};
     background-color: #f5f5f5;
     opacity: ${({ bottom, out }) => (bottom || out ? '0' : '1')};
     transition: all 0.3s ease-in-out;
