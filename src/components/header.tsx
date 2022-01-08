@@ -23,11 +23,14 @@ export default function Header() {
   const [loading, setLoading] = useState(false);
   const searchInput = useRef<HTMLInputElement | null>(null);
   const country = useSelector((state: any) => state.geo.geo);
+
   //function that turns spaces into + in a string
   const encode = (s: string) => {
     return s.replace(/ /g, '+');
   };
+
   const searchHistory=useSelector((state: any) => state.searchHistory.searchHistory)
+
   useEffect(() => {
     async function fetchData() {
       let data: any; 
@@ -40,7 +43,7 @@ export default function Header() {
           return obj.keyword === inputValue;
         }
       );data= instance.resultsList}
-      else{ data= await getBooks(encode(inputValue));}
+      else{ inputValue!==""&&(data= await getBooks(encode(inputValue)));}
       setSearchResults(data);
       setLoading(false);
       dispatch(saveSearchResult({ keyword: inputValue, resultsList: data }));
@@ -61,6 +64,7 @@ export default function Header() {
       setInputValue('');
     }
   };
+
    const debounced = useDebouncedCallback(
      (value) => {
        setInputValue(value);
@@ -68,8 +72,7 @@ export default function Header() {
      },
      500
    );
- 
-   console.log(useSelector((state: any) => state));
+
   return (
     <HeaderStyled>
       <BookMarkLine onClick={handleFocus} />
