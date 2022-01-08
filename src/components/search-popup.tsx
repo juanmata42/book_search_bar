@@ -3,8 +3,20 @@ import BookCard from './book-card';
 import placeholder from '../assets/placeholder';
 import { PopUpStyled, SearchResultsList } from './styled-components';
 
-export default function SearchPopUp({ out }: { out: boolean }) {
-  const resultsList = placeholder.titles.title;
+export default function SearchPopUp({
+  out,
+  resultsList,
+}: {
+  out: boolean;
+  resultsList: {
+    "@uri": string;
+    titleweb: string;
+    authorweb: string;
+    flapcopy: string;
+    workid: string;
+  }[];
+}) {
+  /* const resultsList = placeholder.titles.title; */
   const [isBottom, setIsBottom] = useState(false);
   const listInnerRef = useRef<HTMLUListElement | null>(null);
   const onScroll = () => {
@@ -21,30 +33,16 @@ export default function SearchPopUp({ out }: { out: boolean }) {
     <PopUpStyled out={out} bottom={isBottom}>
       <SearchResultsList onScroll={onScroll} ref={listInnerRef}>
         {resultsList &&
-          resultsList.map(
-            ({
-              uri,
-              titleweb,
-              authorweb,
-              flapcopy,
-              workid,
-            }: {
-              uri: string;
-              titleweb: string;
-              authorweb: string;
-              flapcopy: string;
-              workid: string;
-            }) => (
-              <BookCard
-                uri={uri}
-                titleweb={titleweb}
-                authorweb={authorweb}
-                flapcopy={flapcopy}
-                workid={workid}
-                key={workid}
-              />
-            )
-          )}
+          resultsList.map((book) => (
+            <BookCard
+              uri={book['@uri']}
+              titleweb={book.titleweb}
+              authorweb={book.authorweb}
+              flapcopy={book.flapcopy}
+              workid={book.workid}
+              key={book.workid}
+            />
+          ))}
       </SearchResultsList>
     </PopUpStyled>
   );

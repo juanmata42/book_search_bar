@@ -5,19 +5,30 @@ import {
   SearchIcon,
   CloseIcon,
 } from './styled-components';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import SearchPopUp from './search-popup';
 import { getBooks } from '../api/api';
 export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
   const searchInput = useRef<HTMLInputElement | null>(null);
-  //function that turns spaces into +
-
-  const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-    /* getBooks() */
+  //function that turns spaces into + in a string
+  const encode = (s: string) => {
+    return s.replace(/ /g, '+');
   };
+  /* const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  }; */
+  useEffect(() => {
+    async function fetchData() {
+      const data = await getBooks(encode(inputValue));
+      setSearchResults(data)}
+      fetchData();
+      console.log(searchResults);
+    },
+    [inputValue]
+  );
   const resetInputField = () => {
     setInputValue('');
   };
@@ -42,11 +53,13 @@ export default function Header() {
       </CloseIcon>
       <SearchInput
         ref={searchInput}
-        onChange={handleUserInput}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          setInputValue(e.target.value);
+        }}
         value={inputValue}
         out={!isSearchOpen}
       />
-      <SearchPopUp out={!isSearchOpen} />
+      <SearchPopUp out={!isSearchOpen} resultsList={searchResults} />
     </HeaderStyled>
   );
 }
