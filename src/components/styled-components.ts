@@ -27,7 +27,6 @@ export const BookMarkLine = styled.button`
 `;
 
 export const SearchInput = styled.input.attrs({
-  placeholder: 'Search book',
   type: 'search',
 })`
   width: ${(props: { out: boolean }) => (props.out ? '0' : '200px')};

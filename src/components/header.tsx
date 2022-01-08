@@ -5,27 +5,45 @@ import {
   SearchIcon,
   CloseIcon,
 } from './styled-components';
+import {saveSearchResult} from "../actions/searchHistory"
 import { useDebouncedCallback } from 'use-debounce';
 import { useState, useRef, useEffect } from 'react';
 import SearchPopUp from './search-popup';
 import { getBooks } from '../api/api';
+import { useSelector, useDispatch } from 'react-redux';
+import translations from '../assets/translations';
+
 
 export default function Header() {
+  const dispatch = useDispatch();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [keywords,setKeywords]= useState("")
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const searchInput = useRef<HTMLInputElement | null>(null);
+  const country = useSelector((state: any) => state.geo.geo);
   //function that turns spaces into + in a string
   const encode = (s: string) => {
     return s.replace(/ /g, '+');
   };
+  const searchHistory=useSelector((state: any) => state.searchHistory.searchHistory)
   useEffect(() => {
     async function fetchData() {
-      const data = await getBooks(encode(inputValue));
+      let data: any; 
+     if (
+        searchHistory.find((obj:{keyword:string,resultsList:any}) => {
+          return obj.keyword === inputValue;
+        })
+      ){const instance = searchHistory.find(
+        (obj: { keyword: string; resultsList: any }) => {
+          return obj.keyword === inputValue;
+        }
+      );data= instance.resultsList}
+      else{ data= await getBooks(encode(inputValue));}
       setSearchResults(data);
       setLoading(false);
+      dispatch(saveSearchResult({ keyword: inputValue, resultsList: data }));
     }
     setLoading(true);
     fetchData()
@@ -50,6 +68,8 @@ export default function Header() {
      },
      500
    );
+ 
+   console.log(useSelector((state: any) => state));
   return (
     <HeaderStyled>
       <BookMarkLine onClick={handleFocus} />
@@ -63,8 +83,9 @@ export default function Header() {
         ref={searchInput}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           setKeywords(e.target.value);
-          debounced(e.target.value)
+          debounced(e.target.value);
         }}
+        placeholder={translations[country]?.searchPlaceholder || 'Search books'}
         out={!isSearchOpen}
         value={keywords}
       />

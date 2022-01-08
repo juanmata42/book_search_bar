@@ -1,8 +1,19 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import GlobalStyles from './components/globalStyles';
 import Layout from './components/layout';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
 function App() {
+  const dispatch = useDispatch();
+  /* const [country, setCountry] = useState({ countryName: '', countryCode: '' }); */
+  const getGeoInfo = async() => {
+    let { data } = await axios.get('https://ipapi.co/json/');
+    dispatch({ type: 'GET_LOCATION', payload: data.country });
+  };
+  useEffect(() => {
+    getGeoInfo();
+  }, []);
   return (
     <>
       <GlobalStyles />
