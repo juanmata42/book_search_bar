@@ -94,18 +94,6 @@ export const fadeOut = keyframes`
   }
 `;
 
-export const growFromTop = keyframes`
-  from {
-    transform: scale(0.25);
-    opacity: 0;
-  }
-
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-`;
-
 //searchbar icons
 
 export const SearchIcon = styled.svg`
@@ -166,7 +154,7 @@ export const PopUpStyled = styled.section<PopUpStyledInterface>`
   position: absolute;
   z-index: 6;
   height: ${({ resultsNum, $loading }) =>
-    resultsNum ? adjustHeigth(resultsNum) : $loading ? '500' : '50'}px;
+    resultsNum ? adjustHeigth(resultsNum) : $loading ? '500' : '40'}px;
   max-width: 90vw;
   width: 500px;
   right: 10px;
@@ -230,6 +218,10 @@ export const BookCardStyled = styled.li`
   height: 200px;
   width: 100%;
   gap: 10px;
+  cursor:pointer;
+  &:hover {
+    background-color: #ffffff;
+  }
 `;
 export const BookPicContainerStyled = styled.div`
   height: 100%;
@@ -244,6 +236,7 @@ export const BookPicContainerStyled = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  position:relative;
 `;
 export const BookPicStyled = styled.img`
   height: auto;
@@ -287,3 +280,12 @@ export const BookFlapCopyStyled = styled.div`
   -webkit-box-orient: vertical;
   white-space: normal;
 `;
+export const BookPicLoaderContainer = styled.div`
+height:100%;
+width:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+position:absolute;
+z-index:1
+`

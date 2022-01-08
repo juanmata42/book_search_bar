@@ -5,8 +5,11 @@ import {
   BookTextContainerStyled,
   BookTitleStyled,
   BookAuthorStyled,
-  BookFlapCopyStyled
+  BookFlapCopyStyled,
+  BookPicLoaderContainer,
 } from './styled-components';
+import ReactLoading from 'react-loading';
+import { useState } from 'react';
 
 type BookCardProps = {
   uri: string;
@@ -23,10 +26,33 @@ export default function BookCard({
   flapcopy,
   workid,
 }: BookCardProps) {
+  const [loading, setLoading] = useState(true);
+  const imageLoaded = () => {
+    setLoading(false);
+  };
+
   return (
-    <BookCardStyled>
+    <BookCardStyled onClick={()=>{window.open(
+      `https://www.amazon.es/s?k=${titleweb.replace(/ /g, '+')}`,
+      '_blank'
+    );}}>
       <BookPicContainerStyled>
-        <BookPicStyled src={uri} alt={titleweb} />
+        {loading && (
+          <BookPicLoaderContainer>
+            <ReactLoading
+              type={'bars'}
+              color={'#ff4444'}
+              height={'40%'}
+              width={'40%'}
+            />
+          </BookPicLoaderContainer>
+        )}
+        <BookPicStyled
+          src={uri}
+          alt={titleweb}
+          onLoad={imageLoaded}
+          onError={imageLoaded}
+        />
       </BookPicContainerStyled>
       <BookTextContainerStyled>
         <BookTitleStyled>{titleweb}</BookTitleStyled>
