@@ -5,6 +5,7 @@ import {
   SearchIcon,
   CloseIcon,
 } from './styled-components';
+import {saveSearchResult} from "../actions/searchHistory"
 import { useDebouncedCallback } from 'use-debounce';
 import { useState, useRef, useEffect } from 'react';
 import SearchPopUp from './search-popup';
@@ -14,6 +15,7 @@ import translations from '../assets/translations';
 
 
 export default function Header() {
+  const dispatch = useDispatch();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [keywords,setKeywords]= useState("")
@@ -25,11 +27,23 @@ export default function Header() {
   const encode = (s: string) => {
     return s.replace(/ /g, '+');
   };
+  const searchHistory=useSelector((state: any) => state.searchHistory.searchHistory)
   useEffect(() => {
     async function fetchData() {
-      const data = await getBooks(encode(inputValue));
+      let data: any; 
+     if (
+        searchHistory.find((obj:{keyword:string,resultsList:any}) => {
+          return obj.keyword === inputValue;
+        })
+      ){const instance = searchHistory.find(
+        (obj: { keyword: string; resultsList: any }) => {
+          return obj.keyword === inputValue;
+        }
+      );data= instance.resultsList}
+      else{ data= await getBooks(encode(inputValue));}
       setSearchResults(data);
       setLoading(false);
+      dispatch(saveSearchResult({ keyword: inputValue, resultsList: data }));
     }
     setLoading(true);
     fetchData()
@@ -55,7 +69,7 @@ export default function Header() {
      500
    );
  
-   
+   console.log(useSelector((state: any) => state));
   return (
     <HeaderStyled>
       <BookMarkLine onClick={handleFocus} />

@@ -1,12 +1,12 @@
 const searchHistory = (
   state: any = {
-    searchHistory: {},
+    searchHistory:[],
   },
   action: any
 ) => {
   switch (action.type) {
-    case 'ADD_RESULT':
-      return { ...state, searchHistory: action.payload };
+    case 'SAVE_RESULT':
+      return { ...state, searchHistory:[...state.searchHistory,action.payload] };
     default:
       return { ...state };
   }
