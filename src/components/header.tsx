@@ -9,6 +9,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import { useState, useRef, useEffect } from 'react';
 import SearchPopUp from './search-popup';
 import { getBooks } from '../api/api';
+import { useSelector, useDispatch } from 'react-redux';
 
 export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -50,6 +51,8 @@ export default function Header() {
      },
      500
    );
+ 
+   console.log(useSelector((state: any) => state));
   return (
     <HeaderStyled>
       <BookMarkLine onClick={handleFocus} />
