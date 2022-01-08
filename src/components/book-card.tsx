@@ -8,8 +8,10 @@ import {
   BookFlapCopyStyled,
   BookPicLoaderContainer,
 } from './styled-components';
+import amazonCountryList from '../assets/amazonCountryList';
 import ReactLoading from 'react-loading';
 import { useState } from 'react';
+import { useSelector} from 'react-redux';
 
 type BookCardProps = {
   uri: string;
@@ -30,10 +32,10 @@ export default function BookCard({
   const imageLoaded = () => {
     setLoading(false);
   };
-
+  const country:keyof typeof amazonCountryList = useSelector((state: any) => state.geo.geo);
   return (
     <BookCardStyled onClick={()=>{window.open(
-      `https://www.amazon.es/s?k=${titleweb.replace(/ /g, '+')}`,
+      `https://www.amazon${amazonCountryList[country]||'.com'}/s?k=${titleweb.replace(/ /g, '+')}`,
       '_blank'
     );}}>
       <BookPicContainerStyled>
