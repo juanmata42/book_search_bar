@@ -26,14 +26,17 @@ export const BookMarkLine = styled.button`
   }
 `;
 
-export const SearchInput = styled.input.attrs({ placeholder: 'Search book' })`
-  width: ${(props: { out: boolean }) => (props.out ? "0" : "200px")};
-  padding-left: ${(props: { out: boolean }) => (props.out ? "0" : "10px")};
+export const SearchInput = styled.input.attrs({
+  placeholder: 'Search book',
+  type: 'search',
+})`
+  width: ${(props: { out: boolean }) => (props.out ? '0' : '200px')};
+  padding-left: ${(props: { out: boolean }) => (props.out ? '0' : '10px')};
   height: 30px;
   border: none;
   border-radius: 15px 0 0 15px;
   background-color: rgba(0, 0, 0, 0.2);
-  transition: width 0.15s ease-in-out;
+  transition: width 0.15s, padding 0.15s ease-in-out;
   position: absolute;
   z-index: 1;
   top: 12px;
@@ -44,6 +47,24 @@ export const SearchInput = styled.input.attrs({ placeholder: 'Search book' })`
   }
   &::placeholder {
     color: rgba(0, 0, 0, 0.5);
+  }
+  /* clears the ‘X’ from Internet Explorer */
+  &::-ms-clear {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+  &::-ms-reveal {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+  /* clears the ‘X’ from Chrome */
+  &::-webkit-search-decoration,
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-results-button,
+  &::-webkit-search-results-decoration {
+    display: none;
   }
 `;
 
@@ -70,18 +91,6 @@ export const fadeOut = keyframes`
   to {
     transform: scale(0.25);
     opacity: 0;
-  }
-`;
-
-export const growFromTop = keyframes`
-  from {
-    transform: scale(0.25);
-    opacity: 0;
-  }
-
-  to {
-    transform: scale(1);
-    opacity: 1;
   }
 `;
 
@@ -120,24 +129,41 @@ export const CloseIcon = styled.svg`
 `;
 
 //search popup components
-interface PopUpStyled{
-  out:boolean,bottom:boolean
+interface PopUpStyledInterface {
+  out: boolean;
+  bottom: boolean;
+  resultsNum: number;
+  validInput: boolean;
+  $loading: boolean;
 }
-export const PopUpStyled = styled.section<PopUpStyled>`
+function adjustHeigth(num: number) {
+  if (num === 1) {
+    return "220";
+  }
+  if (num === 2) {
+    return "430";
+  }
+  if (num >= 3) {
+    return "500";
+  } else {
+    return "50";
+  }
+}
+export const PopUpStyled = styled.section<PopUpStyledInterface>`
   background-color: #f5f5f5;
   position: absolute;
   z-index: 6;
-  height: 500px;
+  height: ${({ resultsNum, $loading }) =>
+    resultsNum ? adjustHeigth(resultsNum) : $loading ? '500' : '40'}px;
   max-width: 90vw;
   width: 500px;
   right: 10px;
   top: 70px;
-
   @media only screen and (max-width: 600px) {
     width: 90vw;
     font-size: 15px;
   }
-  visibility: ${({ out }) => (out ? 'hidden' : 'visible')};
+  visibility: ${({ validInput }) => (validInput ? 'visible' : 'hidden')};
   max-height: ${({ out }) => (out ? '0' : '500px')};
   transition: all 0.3s;
   padding: ${({ out }) => (out ? '0 10px' : '10px')};
@@ -163,11 +189,12 @@ export const PopUpStyled = styled.section<PopUpStyled>`
     position: absolute;
     bottom: 0px;
     width: 100%;
-    height: 100px;
+    height: ${({ bottom, out }) => (bottom || out ? '0' : '100px')};
     left: 0;
+    display: ${({ resultsNum }) => (resultsNum ? 'block' : 'none')};
     background-color: #f5f5f5;
-    display: ${({ bottom }) =>
-      bottom ? 'none' : 'block'};
+    opacity: ${({ bottom, out }) => (bottom || out ? '0' : '1')};
+    transition: all 0.3s ease-in-out;
   }
 `;
 export const SearchResultsList = styled.ul`
@@ -191,6 +218,10 @@ export const BookCardStyled = styled.li`
   height: 200px;
   width: 100%;
   gap: 10px;
+  cursor:pointer;
+  &:hover {
+    background-color: #ffffff;
+  }
 `;
 export const BookPicContainerStyled = styled.div`
   height: 100%;
@@ -205,6 +236,7 @@ export const BookPicContainerStyled = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  position:relative;
 `;
 export const BookPicStyled = styled.img`
   height: auto;
@@ -248,3 +280,12 @@ export const BookFlapCopyStyled = styled.div`
   -webkit-box-orient: vertical;
   white-space: normal;
 `;
+export const BookPicLoaderContainer = styled.div`
+height:100%;
+width:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+position:absolute;
+z-index:1
+`

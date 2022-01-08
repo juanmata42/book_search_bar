@@ -1,10 +1,25 @@
 import { useRef, useState } from 'react';
 import BookCard from './book-card';
-import placeholder from '../assets/placeholder';
 import { PopUpStyled, SearchResultsList } from './styled-components';
+import loadingBookGif from '../assets/loading-book.gif';
 
-export default function SearchPopUp({ out }: { out: boolean }) {
-  const resultsList = placeholder.titles.title;
+export default function SearchPopUp({
+  out,
+  resultsList,
+  validInput,
+  loading
+}: {
+  out: boolean;
+  validInput: boolean;
+  loading: boolean;
+  resultsList: {
+    '@uri': string;
+    titleweb: string;
+    authorweb: string;
+    flapcopy: string;
+    workid: string;
+  }[];
+}) {
   const [isBottom, setIsBottom] = useState(false);
   const listInnerRef = useRef<HTMLUListElement | null>(null);
   const onScroll = () => {
@@ -18,34 +33,28 @@ export default function SearchPopUp({ out }: { out: boolean }) {
     }
   };
   return (
-    <PopUpStyled out={out} bottom={isBottom}>
+    <PopUpStyled
+      out={out}
+      bottom={isBottom}
+      resultsNum={resultsList?.length}
+      validInput={validInput}
+      $loading={loading}
+    >
       <SearchResultsList onScroll={onScroll} ref={listInnerRef}>
-        {resultsList &&
-          resultsList.map(
-            ({
-              uri,
-              titleweb,
-              authorweb,
-              flapcopy,
-              workid,
-            }: {
-              uri: string;
-              titleweb: string;
-              authorweb: string;
-              flapcopy: string;
-              workid: string;
-            }) => (
+        {loading ? (<img src={loadingBookGif} alt="loading" />):
+          (resultsList ?(resultsList?.map((book) => (
               <BookCard
-                uri={uri}
-                titleweb={titleweb}
-                authorweb={authorweb}
-                flapcopy={flapcopy}
-                workid={workid}
-                key={workid}
+                uri={book['@uri']}
+                titleweb={book.titleweb}
+                authorweb={book.authorweb}
+                flapcopy={book.flapcopy}
+                workid={book.workid}
+                key={`${book.workid}${book.titleweb}`}
               />
-            )
-          )}
-      </SearchResultsList>
+            ))):(
+        'No results found'
+      ))}
+        </SearchResultsList>
     </PopUpStyled>
   );
 }

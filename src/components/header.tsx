@@ -3,21 +3,34 @@ import {
   BookMarkLine,
   SearchInput,
   SearchIcon,
-  CloseIcon
+  CloseIcon,
 } from './styled-components';
-import { useState, useRef } from 'react';
+import { useDebouncedCallback } from 'use-debounce';
+import { useState, useRef, useEffect } from 'react';
 import SearchPopUp from './search-popup';
+import { getBooks } from '../api/api';
 
 export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [keywords,setKeywords]= useState("")
+  const [searchResults, setSearchResults] = useState([]);
+  const [loading, setLoading] = useState(false);
   const searchInput = useRef<HTMLInputElement | null>(null);
-  const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+  //function that turns spaces into + in a string
+  const encode = (s: string) => {
+    return s.replace(/ /g, '+');
   };
-  const resetInputField = () => {
-    setInputValue('');
-  };
+  useEffect(() => {
+    async function fetchData() {
+      const data = await getBooks(encode(inputValue));
+      setSearchResults(data);
+      setLoading(false);
+    }
+    setLoading(true);
+    fetchData()
+  }, [inputValue]);
+  
   const handleFocus = () => {
     if (!isSearchOpen) {
       searchInput.current?.focus();
@@ -25,9 +38,18 @@ export default function Header() {
     } else {
       setIsSearchOpen(false);
       searchInput.current?.blur();
-      resetInputField();
+      setSearchResults([]);
+      setKeywords('');
+      setInputValue('');
     }
   };
+   const debounced = useDebouncedCallback(
+     (value) => {
+       setInputValue(value);
+       setLoading(true);
+     },
+     500
+   );
   return (
     <HeaderStyled>
       <BookMarkLine onClick={handleFocus} />
@@ -39,11 +61,19 @@ export default function Header() {
       </CloseIcon>
       <SearchInput
         ref={searchInput}
-        onChange={handleUserInput}
-        value={inputValue}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          setKeywords(e.target.value);
+          debounced(e.target.value)
+        }}
         out={!isSearchOpen}
+        value={keywords}
       />
-      <SearchPopUp out={!isSearchOpen} />
+      <SearchPopUp
+        out={!isSearchOpen}
+        resultsList={searchResults}
+        validInput={inputValue === '' ? false : true}
+        loading={loading}
+      />
     </HeaderStyled>
   );
 }
