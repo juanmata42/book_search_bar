@@ -1,9 +1,6 @@
-const placeholder = {
-  titles: {
-    uri: 'https://reststop.randomhouse.com/resources/titles?title=but&max=5',
-    title: [
+const placeholder = [
       {
-        uri: 'https://reststop.randomhouse.com/resources/titles/9780140342048',
+        "@uri": 'https://reststop.randomhouse.com/resources/titles/9780140342048',
         author: 'BRUNS, JEROME H.',
         authors: {
           authorId: {
@@ -52,7 +49,7 @@ const placeholder = {
           'Education - Special Education - Learning Disabilities',
         subtitle: 'Helping Students Overcome Work Inhibition',
         tableofcontents:
-          'Preface<br>Acknowledgments<br><p><b>Part I. The Problem</b><br>1. Defining the Problem<br>2. Who Is Work-Inhibited?<br>3. Characteristics of Work-Inhibited Students<br>4. Early Determinants of Work Inhibition<br><p><b>Part II. The Answers</b><br>5. Identification and Evaluation of Work Inhibition<br>6. What Educators Can Do<br>7. How Parents Can Help Their Work-Inhibited Children<br>8. Counseling for Work-Inhibited Students<br><p><b>Appendices</b><br>Appendix A: Demographic Studies<br>Appendix B: Information from Parents and Educators<br>Appendix C: A Comparative Study of Work-Inhibited and Achieving Students Measuring Self-Esteem, Attitudes Toward School, and Locus of Control<br>Appendix D: A Comparative Personality Study of Work-Inhibited and High-Achieving Students<br>Appendix E: Parent and Teacher Interviews<br>Appendix F: The Relationships Among Completion of School Assignments, Academic Skills, and Grades<br>Appendix G: New Horizons: A Resource Program for Work-Inhibited Students<br><p>Notes<br>Index</p></p></p></p>',
+          'Preface<br>Acknowledgments<br><p><b>Part I. The Problem</b><br>1. Defining the Problem<br>2. Who Is Work-Inhibited?<br>3. Characteristics of Work-Inhibited Students<br>4. Early Determinants of Work Inhibition<br><p><b>Part II. The Answers</b><br>5. Identification and Evaluation of Work Inhibition<br>6. What Educators Can Do<br>7. How Parents Can Help Their Work-Inhibited Children<br>8. Counseling for Work-Inhibited Students<br><p><b>Appendices</b><br>Appendix A: Demographic Studies<br>Appendix B: Information from Parents and Educators<br>Appendix C: A Comparative Study of Work-Inhibited and Achieving Students Meas"@uri"ng Self-Esteem, Attitudes Toward School, and Locus of Control<br>Appendix D: A Comparative Personality Study of Work-Inhibited and High-Achieving Students<br>Appendix E: Parent and Teacher Interviews<br>Appendix F: The Relationships Among Completion of School Assignments, Academic Skills, and Grades<br>Appendix G: New Horizons: A Resource Program for Work-Inhibited Students<br><p>Notes<br>Index</p></p></p></p>',
         tgpdf: 'false',
         themes: {
           '-self-closing': 'true',
@@ -134,7 +131,7 @@ const placeholder = {
         workid: '320964',
       },
       {
-        uri: 'https://reststop.randomhouse.com/resources/titles/9780140342048',
+        "@uri": 'https://reststop.randomhouse.com/resources/titles/9780140342048',
         agerange: '10 and up',
         agerangecode: '10UP',
         author: 'PAULSEN, GARY',
@@ -260,7 +257,7 @@ const placeholder = {
         workid: '324423',
       },
       {
-        uri: 'https://reststop.randomhouse.com/resources/titles/9780140548525',
+        "@uri": 'https://reststop.randomhouse.com/resources/titles/9780140548525',
         agerange: '2-5 years',
         agerangecode: '0205',
         author: 'WESTCOTT, NADINE BERNARD',
@@ -394,7 +391,7 @@ const placeholder = {
         workid: '320261',
       },
       {
-        uri: 'https://reststop.randomhouse.com/resources/titles/9780140554953',
+        "@uri": 'https://reststop.randomhouse.com/resources/titles/9780140554953',
         agerange: '3-7 years',
         agerangecode: '0307',
         author: 'REID, MARGARETTE S.',
@@ -535,7 +532,7 @@ const placeholder = {
         workid: '320114',
       },
       {
-        uri: 'https://reststop.randomhouse.com/resources/titles/9780140558586',
+        "@uri": 'https://reststop.randomhouse.com/resources/titles/9780140558586',
         agerange: '5-8 years',
         agerangecode: '0508',
         author: 'RYDER, JOANNE',
@@ -676,9 +673,6 @@ const placeholder = {
         },
         workid: '320336',
       },
-    ],
-  },
-  '#standalone': 'yes',
-};
+    ]
 
 export default placeholder

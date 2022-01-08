@@ -27,8 +27,8 @@ export const BookMarkLine = styled.button`
 `;
 
 export const SearchInput = styled.input.attrs({ placeholder: 'Search book' })`
-  width: ${(props: { out: boolean }) => (props.out ? "0" : "200px")};
-  padding-left: ${(props: { out: boolean }) => (props.out ? "0" : "10px")};
+  width: ${(props: { out: boolean }) => (props.out ? '0' : '200px')};
+  padding-left: ${(props: { out: boolean }) => (props.out ? '0' : '10px')};
   height: 30px;
   border: none;
   border-radius: 15px 0 0 15px;
@@ -120,24 +120,41 @@ export const CloseIcon = styled.svg`
 `;
 
 //search popup components
-interface PopUpStyled{
-  out:boolean,bottom:boolean
+interface PopUpStyled {
+  out: boolean;
+  bottom: boolean;
+  resultsNum: number;
+  validInput: boolean;
+}
+function adjustHeigth(num: number) {
+  if (num === 1) {
+    return "220";
+  }
+  if (num === 2) {
+    return "430";
+  }
+  if (num >= 3) {
+    return "500";
+  } else {
+    return "50";
+  }
 }
 export const PopUpStyled = styled.section<PopUpStyled>`
   background-color: #f5f5f5;
   position: absolute;
   z-index: 6;
-  height: 500px;
+  height: ${({ resultsNum }) =>
+    resultsNum ? adjustHeigth(resultsNum) : '50'}px;
   max-width: 90vw;
   width: 500px;
   right: 10px;
   top: 70px;
-
   @media only screen and (max-width: 600px) {
     width: 90vw;
     font-size: 15px;
   }
-  visibility: ${({ out }) => (out ? 'hidden' : 'visible')};
+  visibility: ${({ validInput }) =>
+    validInput ? 'visible' : 'hidden'};
   max-height: ${({ out }) => (out ? '0' : '500px')};
   transition: all 0.3s;
   padding: ${({ out }) => (out ? '0 10px' : '10px')};
@@ -163,11 +180,12 @@ export const PopUpStyled = styled.section<PopUpStyled>`
     position: absolute;
     bottom: 0px;
     width: 100%;
-    height: 100px;
+    height: ${({ bottom, out }) => (bottom || out ? '0' : '100px')};
     left: 0;
+    display:${({ resultsNum }) =>resultsNum? 'block':'none'};
     background-color: #f5f5f5;
-    display: ${({ bottom }) =>
-      bottom ? 'none' : 'block'};
+    opacity: ${({ bottom, out }) => (bottom || out ? '0' : '1')};
+    transition: all 0.3s ease-in-out;
   }
 `;
 export const SearchResultsList = styled.ul`

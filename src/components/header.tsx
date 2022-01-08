@@ -12,20 +12,19 @@ export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [loading, setLoading] = useState(false);
   const searchInput = useRef<HTMLInputElement | null>(null);
   //function that turns spaces into + in a string
   const encode = (s: string) => {
     return s.replace(/ /g, '+');
   };
-  /* const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-  }; */
   useEffect(() => {
     async function fetchData() {
       const data = await getBooks(encode(inputValue));
-      setSearchResults(data)}
-      fetchData();
-      console.log(searchResults);
+      setSearchResults(data)
+      setLoading(false)}
+    setLoading(true);
+    fetchData();
     },
     [inputValue]
   );
@@ -56,10 +55,15 @@ export default function Header() {
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           setInputValue(e.target.value);
         }}
-        value={inputValue}
+        value={inputValue || ''}
         out={!isSearchOpen}
       />
-      <SearchPopUp out={!isSearchOpen} resultsList={searchResults} />
+      <SearchPopUp
+        out={!isSearchOpen}
+        resultsList={searchResults}
+        validInput={inputValue === '' ? false : true}
+        loading={loading}
+      />
     </HeaderStyled>
   );
 }

@@ -1,22 +1,25 @@
 import { useRef, useState } from 'react';
 import BookCard from './book-card';
-import placeholder from '../assets/placeholder';
 import { PopUpStyled, SearchResultsList } from './styled-components';
+import loadingBookGif from '../assets/loading-book.gif';
 
 export default function SearchPopUp({
   out,
   resultsList,
+  validInput,
+  loading
 }: {
   out: boolean;
+  validInput: boolean;
+  loading: boolean;
   resultsList: {
-    "@uri": string;
+    '@uri': string;
     titleweb: string;
     authorweb: string;
     flapcopy: string;
     workid: string;
   }[];
 }) {
-  /* const resultsList = placeholder.titles.title; */
   const [isBottom, setIsBottom] = useState(false);
   const listInnerRef = useRef<HTMLUListElement | null>(null);
   const onScroll = () => {
@@ -30,20 +33,29 @@ export default function SearchPopUp({
     }
   };
   return (
-    <PopUpStyled out={out} bottom={isBottom}>
-      <SearchResultsList onScroll={onScroll} ref={listInnerRef}>
-        {resultsList &&
-          resultsList.map((book) => (
-            <BookCard
-              uri={book['@uri']}
-              titleweb={book.titleweb}
-              authorweb={book.authorweb}
-              flapcopy={book.flapcopy}
-              workid={book.workid}
-              key={book.workid}
-            />
-          ))}
-      </SearchResultsList>
+    <PopUpStyled
+      out={out}
+      bottom={isBottom}
+      resultsNum={resultsList?.length}
+      validInput={validInput}
+    >
+      {resultsList ? (
+        <SearchResultsList onScroll={onScroll} ref={listInnerRef}>
+          {loading ? (<img src={loadingBookGif} alt="loading" />):(resultsList &&
+            resultsList?.map((book) => (
+              <BookCard
+                uri={book['@uri']}
+                titleweb={book.titleweb}
+                authorweb={book.authorweb}
+                flapcopy={book.flapcopy}
+                workid={book.workid}
+                key={`${book.workid}${book.titleweb}`}
+              />
+            )))}
+        </SearchResultsList>
+      ) : (
+        'No results found'
+      )}
     </PopUpStyled>
   );
 }
