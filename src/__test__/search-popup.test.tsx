@@ -1,11 +1,5 @@
 import placeholder from '../assets/placeholder';
-import {
-  render,
-  screen,
-  cleanup,
-  waitFor,
-  fireEvent,
-} from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import SearchPopup from '../components/search-popup';
 import { Provider } from 'react-redux';

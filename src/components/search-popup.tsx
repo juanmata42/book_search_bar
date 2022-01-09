@@ -7,7 +7,7 @@ export default function SearchPopUp({
   out,
   resultsList,
   validInput,
-  loading
+  loading,
 }: {
   out: boolean;
   validInput: boolean;
@@ -19,9 +19,11 @@ export default function SearchPopUp({
     flapcopy: string;
     workid: string;
   }[];
-}) {
+}): JSX.Element {
   const [isBottom, setIsBottom] = useState(false);
   const listInnerRef = useRef<HTMLUListElement | null>(null);
+  /* this function is called when the user scrolls on the results list and will make dissapear the after
+  element with a gradient that shows when the user hasn't scrolled to the end of the list */
   const onScroll = () => {
     if (listInnerRef.current) {
       const { scrollTop, scrollHeight, clientHeight } = listInnerRef.current;
@@ -32,6 +34,7 @@ export default function SearchPopUp({
       }
     }
   };
+  // here we have a conditional that will show the loading gif until the results are loaded
   return (
     <PopUpStyled
       out={out}
@@ -41,20 +44,23 @@ export default function SearchPopUp({
       $loading={loading}
     >
       <SearchResultsList onScroll={onScroll} ref={listInnerRef}>
-        {loading ? (<img src={loadingBookGif} alt="loading" />):
-          (resultsList ?(resultsList?.map((book) => (
-              <BookCard
-                uri={book['@uri']}
-                titleweb={book.titleweb}
-                authorweb={book.authorweb}
-                flapcopy={book.flapcopy}
-                workid={book.workid}
-                key={`${book.workid}${book.titleweb}`}
-              />
-            ))):(
-        'No results found'
-      ))}
-        </SearchResultsList>
+        {loading ? (
+          <img src={loadingBookGif} alt="loading" />
+        ) : resultsList ? (
+          resultsList?.map((book) => (
+            <BookCard
+              uri={book['@uri']}
+              titleweb={book.titleweb}
+              authorweb={book.authorweb}
+              flapcopy={book.flapcopy}
+              workid={book.workid}
+              key={`${book.workid}${book.titleweb}`}
+            />
+          ))
+        ) : (
+          'No results found'
+        )}
+      </SearchResultsList>
     </PopUpStyled>
   );
 }

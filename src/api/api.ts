@@ -3,6 +3,9 @@ const API = axios.create({
   baseURL: 'https://reststop.randomhouse.com/resources',
 });
 
+/*Get 10 results from api. Filters them, excluding merchandising and then, 
+if the list is smaller than 5, calls the api again for 50 results, filtering them again */
+
 export const getBooks = async (keyWords: string) => {
   let { data } = await API.get(`/titles?title=${keyWords}&max=10`);
   let results = data.title.filter(

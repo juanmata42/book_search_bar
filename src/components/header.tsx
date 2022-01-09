@@ -5,7 +5,7 @@ import {
   SearchIcon,
   CloseIcon,
 } from './styled-components';
-import {saveSearchResult} from "../actions/searchHistory"
+import { saveSearchResult } from '../actions/searchHistory';
 import { useDebouncedCallback } from 'use-debounce';
 import { useState, useRef, useEffect } from 'react';
 import SearchPopUp from './search-popup';
@@ -13,12 +13,11 @@ import { getBooks } from '../api/api';
 import { useSelector, useDispatch } from 'react-redux';
 import translations from '../assets/translations';
 
-
-export default function Header() {
+export default function Header(): JSX.Element {
   const dispatch = useDispatch();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
-  const [keywords,setKeywords]= useState("")
+  const [keywords, setKeywords] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const searchInput = useRef<HTMLInputElement | null>(null);
@@ -29,29 +28,35 @@ export default function Header() {
     return s.replace(/ /g, '+');
   };
 
-  const searchHistory=useSelector((state: any) => state.searchHistory.searchHistory)
-
+  const searchHistory = useSelector(
+    (state: any) => state.searchHistory.searchHistory
+  );
+  // reruns when the input value changes, fetches the search results and dispatches them to the redux store
   useEffect(() => {
     async function fetchData() {
-      let data: any; 
-     if (
-        searchHistory.find((obj:{keyword:string,resultsList:any}) => {
+      let data: any;
+      if (
+        searchHistory.find((obj: { keyword: string; resultsList: any }) => {
           return obj.keyword === inputValue;
         })
-      ){const instance = searchHistory.find(
-        (obj: { keyword: string; resultsList: any }) => {
-          return obj.keyword === inputValue;
-        }
-      );data= instance.resultsList}
-      else{ inputValue!==""&&(data= await getBooks(encode(inputValue)));}
+      ) {
+        const instance = searchHistory.find(
+          (obj: { keyword: string; resultsList: any }) => {
+            return obj.keyword === inputValue;
+          }
+        );
+        data = instance.resultsList;
+      } else {
+        inputValue !== '' && (data = await getBooks(encode(inputValue)));
+      }
       setSearchResults(data);
       setLoading(false);
       dispatch(saveSearchResult({ keyword: inputValue, resultsList: data }));
     }
     setLoading(true);
-    fetchData()
+    fetchData();
   }, [inputValue]);
-  
+  // handles the opening and closing animation and focus of the search input, with a cleanup on closing
   const handleFocus = () => {
     if (!isSearchOpen) {
       searchInput.current?.focus();
@@ -64,14 +69,11 @@ export default function Header() {
       setInputValue('');
     }
   };
-
-   const debounced = useDebouncedCallback(
-     (value) => {
-       setInputValue(value);
-       setLoading(true);
-     },
-     500
-   );
+  //handles the input value change and sets the keywords with a debounce timer
+  const debounced = useDebouncedCallback((value) => {
+    setInputValue(value);
+    setLoading(true);
+  }, 500);
 
   return (
     <HeaderStyled>

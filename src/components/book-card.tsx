@@ -11,7 +11,7 @@ import {
 import amazonCountryList from '../assets/amazonCountryList';
 import ReactLoading from 'react-loading';
 import { useState } from 'react';
-import { useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 
 type BookCardProps = {
   uri: string;
@@ -21,23 +21,37 @@ type BookCardProps = {
   workid: string;
 };
 
+//left workid unused but still here because it can be used in the future
+
 export default function BookCard({
   uri,
   titleweb,
   authorweb,
   flapcopy,
   workid,
-}: BookCardProps) {
+}: BookCardProps): JSX.Element {
   const [loading, setLoading] = useState(true);
   const imageLoaded = () => {
     setLoading(false);
   };
-  const country:keyof typeof amazonCountryList = useSelector((state: any) => state.geo.geo);
+
+  //changes amazon link with the country
+  const country: keyof typeof amazonCountryList = useSelector(
+    (state: any) => state.geo.geo
+  );
+
+  //dangerouslySetInnerHTML is used to render the flapcopy and keep the style it comes with
   return (
-    <BookCardStyled onClick={()=>{window.open(
-      `https://www.amazon${amazonCountryList[country]||'.com'}/s?k=${titleweb.replace(/ /g, '+')}`,
-      '_blank'
-    );}}>
+    <BookCardStyled
+      onClick={() => {
+        window.open(
+          `https://www.amazon${
+            amazonCountryList[country] || '.com'
+          }/s?k=${titleweb.replace(/ /g, '+')}`,
+          '_blank'
+        );
+      }}
+    >
       <BookPicContainerStyled>
         {loading && (
           <BookPicLoaderContainer>

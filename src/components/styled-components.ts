@@ -11,7 +11,7 @@ export const HeaderStyled = styled.header`
 `;
 
 export const BookMarkLine = styled.button.attrs({
-  "aria-label": 'BookMarkLine',
+  'aria-label': 'BookMarkLine',
 })`
   width: 0;
   height: 60px;
@@ -139,15 +139,15 @@ interface PopUpStyledInterface {
 }
 function adjustHeigth(num: number) {
   if (num === 1) {
-    return "220";
+    return '220';
   }
   if (num === 2) {
-    return "430";
+    return '430';
   }
   if (num >= 3) {
-    return "500";
+    return '500';
   } else {
-    return "50";
+    return '50';
   }
 }
 export const PopUpStyled = styled.section<PopUpStyledInterface>`
@@ -221,7 +221,7 @@ export const BookCardStyled = styled.li`
   height: 200px;
   width: 100%;
   gap: 10px;
-  cursor:pointer;
+  cursor: pointer;
   &:hover {
     background-color: #ffffff;
   }
@@ -239,7 +239,7 @@ export const BookPicContainerStyled = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  position:relative;
+  position: relative;
 `;
 export const BookPicStyled = styled.img`
   height: auto;
@@ -284,11 +284,11 @@ export const BookFlapCopyStyled = styled.div`
   white-space: normal;
 `;
 export const BookPicLoaderContainer = styled.div`
-height:100%;
-width:100%;
-display:flex;
-justify-content:center;
-align-items:center;
-position:absolute;
-z-index:1
-`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  z-index: 1;
+`;
