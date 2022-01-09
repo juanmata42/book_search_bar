@@ -1,14 +1,32 @@
 # book_search_bar
- For TaxScouts interview
+For TaxScouts interview
  
- to compose amazon search links, as of 5/01/2022 you just need to fill this
- https://www.amazon.es/s?k=la+casa+de+bernarda
- first part being the amazon page link, changing the .es for .com , .fr , .it , .ca , .jp ... will lead to a different amazon page, in the language of the country that domain belongs to.
- (NOTE: not all domains are in use, complete list here https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list-geographic.html)
- 
-The api for the books will be this one http://www.penguinrandomhouse.biz/webservices/rest/
+It detects your country based on your ip with this and changes the language and the amazon link accordingly.
+(NOTE: not all domains are in use, complete list here https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list-geographic.html)
 
+The placeholder text on the search input was translated first to 4 of the 5 languages I speak (spa,eng,fr,port), then used deepGL, stopped at countries with languages that weren't an option there. I couldn't translate text to spanish sign language because...well
+
+This is the link to the trello I used to set tasks and track progress
 trello   https://trello.com/b/xJvsG4m0/searchbar
+
+Typing into the search bar has a debounce timer of 500ms. This is not a random number, 
+I had 10 friends writing words with different times and after asking them, this was the timer that gave the best user experience
+
+I limited the results to 10 because the user's experience was best on average with that number(with their different internet speeds).
+More than 10 gave either too many results that were left unseen or got a slow api response/loading time. 
+Less could, sometimes, exclude wanted results.
+
+I decided to filter some api results because it shows sometimes merchandise instead of books, which can't be found on amazon.
+
+Redux is used to store country and search results, both from APIs, so as to improve performance and avoid redundant calls.
+It is ready to be expanded for a bigger project, if needed.
+
+If you wish to see jest tests's coverage, go to coverage/Icov-report/index.html. It looks a little higher than the sonarqube's one.
+The things I left untested were related to changes in style, such as an after element with a gradient mask, and I thought them 
+unimportant, since they worked as expected with different users, phones, computers and internet speeds. 
+I believe it's important to mention it to you because in a future project, I would ask you about this "final decisions" and change
+things accordingly.
+
 
 ## Available Scripts
 

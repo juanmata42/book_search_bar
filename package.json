@@ -32,6 +32,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:coverage": "react-scripts test --env=jsdom --coverage --watchAll",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -50,6 +51,19 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "jest-sonar-reporter": "^2.0.0"
+  },
+  "jestSonar": {
+    "reportPath": "reports",
+    "reportFile": "test-reporter.xml",
+    "indent": 4
+  },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "index.tsx","placeholder.ts","searchHistory.ts"
     ]
   }
 }
