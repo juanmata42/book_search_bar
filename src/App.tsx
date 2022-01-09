@@ -6,7 +6,6 @@ import { useDispatch } from 'react-redux';
 
 function App() {
   const dispatch = useDispatch();
-
   useEffect(() => {
     const getGeoInfo = async() => {
     let { data } = await axios.get('https://ipapi.co/json/');

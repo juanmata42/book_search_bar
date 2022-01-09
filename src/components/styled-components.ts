@@ -10,7 +10,9 @@ export const HeaderStyled = styled.header`
   position: fixed;
 `;
 
-export const BookMarkLine = styled.button`
+export const BookMarkLine = styled.button.attrs({
+  "aria-label": 'BookMarkLine',
+})`
   width: 0;
   height: 60px;
   transition: height 0.15s ease-out;
@@ -196,7 +198,9 @@ export const PopUpStyled = styled.section<PopUpStyledInterface>`
     transition: all 0.3s ease-in-out;
   }
 `;
-export const SearchResultsList = styled.ul`
+export const SearchResultsList = styled.ul.attrs({
+  'aria-label': 'SearchResultsList',
+})`
   list-style: none;
   padding: 0;
   margin: 0;
