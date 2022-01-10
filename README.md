@@ -1,6 +1,8 @@
 # book_search_bar
 For TaxScouts interview
- 
+
+Deployed here https://juanma-book-search-bar.netlify.app/
+
 It detects your country based on your ip with this and changes the language and the amazon link accordingly.
 (NOTE: not all domains are in use, complete list here https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list-geographic.html)
 
